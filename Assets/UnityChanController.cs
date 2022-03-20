@@ -10,6 +10,8 @@ public class UnityChanController : MonoBehaviour
     private float velocityY = 10f;
     private float velocityX = 10f;
     private float movableRange = 3.4f;
+    private float coefficient = 0.99f;
+    private bool isEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,14 @@ public class UnityChanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.isEnd)
+        {
+            this.velocityZ *= this.coefficient;
+            this.velocityX *= this.coefficient;
+            this.velocityY *= this.coefficient;
+            this.myAnimator.speed *= this.coefficient;
+        }
+
         float inputVelocityX = 0;
         float inputVelocityY = 0;
         if (Input.GetKey(KeyCode.LeftArrow) && -this.movableRange < this.transform.position.x)
@@ -49,5 +59,24 @@ public class UnityChanController : MonoBehaviour
         }
 
         this.myRigidbody.velocity = new Vector3(inputVelocityX, inputVelocityY, velocityZ);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "TrafficConeTag")
+        {
+            this.isEnd = true;
+        }
+
+        if (other.gameObject.tag == "GoalTag")
+        {
+            this.isEnd = true;
+        }
+
+        if (other.gameObject.tag == "CoinTag")
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
