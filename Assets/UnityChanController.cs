@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnityChanController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class UnityChanController : MonoBehaviour
     private float movableRange = 3.4f;
     private float coefficient = 0.99f;
     private bool isEnd = false;
+    private GameObject stateText;
+    private GameObject scoreText;
+    private int score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,8 @@ public class UnityChanController : MonoBehaviour
         this.myAnimator = GetComponent<Animator>();
         this.myAnimator.SetFloat("Speed", 1);
         this.myRigidbody = GetComponent<Rigidbody>();
+        this.stateText = GameObject.Find("GameResultText");
+        this.scoreText = GameObject.Find("ScoreText");
     }
 
     // Update is called once per frame
@@ -67,15 +73,20 @@ public class UnityChanController : MonoBehaviour
         if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "TrafficConeTag")
         {
             this.isEnd = true;
+            this.stateText.GetComponent<Text>().text = "GAME OVER";
         }
 
         if (other.gameObject.tag == "GoalTag")
         {
             this.isEnd = true;
+            this.stateText.GetComponent<Text>().text = "CLEAR!!";
         }
 
         if (other.gameObject.tag == "CoinTag")
         {
+            this.score += 10;
+            this.scoreText.GetComponent<Text>().text = "Score " + this.score + "pt";
+
             GetComponent<ParticleSystem>().Play();
 
             Destroy(other.gameObject);
