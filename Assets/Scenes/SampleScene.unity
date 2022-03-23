@@ -5907,6 +5907,7 @@ MonoBehaviour:
     type: 3}
   conePrefab: {fileID: 6834654170221139037, guid: a269838fd188d405a8035a8645eaeb26,
     type: 3}
+  unityChan: {fileID: 634082380}
 --- !u!4 &1641144907
 Transform:
   m_ObjectHideFlags: 0
